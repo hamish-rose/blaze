@@ -1,0 +1,52 @@
+﻿@page "/"
+@using Nethereum.Web3
+@inject Web3 Web3
+
+<h3>Balance</h3>
+<p>Connected to: https://mainnet.infura.io/v3/61af35ec8ca94a5bb1bc6d8fee06dc37</p>
+<div class="container">
+    <div class="row ">
+        <div class="col" />
+        <div class="col">
+            Address: <input required @bind="@Address" />
+            <button value="Search" class="btn btn-info" @onclick="LookupBalanceAsync"> Search</button>
+        </div>
+        <div class="col" />
+    </div>
+    <div class="row" style="visibility: @Visibility">
+        <div class="col" />
+        <div >
+            Balance: @Balance Eth
+        </div>
+        <div class="col" />
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public string Address { get; set; }
+
+    [Parameter]
+    public decimal? Balance { get; set; }
+
+    [Parameter]
+    public string Visibility { get; set; } = "collapse";
+
+    public async Task LookupBalanceAsync()
+    {
+        try
+        {
+            Visibility = "collapse";
+
+            var response = await Web3.Eth.GetBalance.SendRequestAsync(Address);
+            Balance = Web3.Convert.FromWei(response);
+
+            Visibility = "visible";
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+}
