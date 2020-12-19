@@ -2,4 +2,6 @@
 
 # blaze
 
-Ethereum Blazor WASM SPA
+Ethereum Blazor WASM POC.
+
+Static files served from Github pages https://hamish-rose.github.io/blaze/
